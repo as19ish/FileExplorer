@@ -419,6 +419,7 @@ ul li{
   function startUpload() {
     var allowedExtensions = /(java)$/i;  
 	var ext =  fileName.split(".")[1]; 
+	var form = $('#fileUploadForm')[0];
 	if(!allowedExtensions.exec(ext)){
 		alert("Sorry..Only Java Files Allowed");
 		return false;
@@ -441,7 +442,7 @@ ul li{
   	        data.append('location2',checkValue($('#location2')));
   	    	
   	    }else{
-  	    	var form = $('#fileUploadForm')[0];	
+  	    		
   	        var data = new FormData(form);
   	        data.append('location1',checkValue($('#location1')));
   	        data.append('location2',checkValue($('#location2')));
@@ -514,8 +515,9 @@ ul li{
 	  $bar.removeClass('active');
 	  $('.filename').html("");
 	  $('.dropzone .upload').show();
-	  
-	  
+	  $('#location1').prop('checked',false);
+	  $('#location2').prop('checked',false);  
+	    
   }
   
     
