@@ -10,9 +10,9 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 <%     
-        
-        String loc1 = "false";
-        String loc2 = "false";
+        Boolean flag = false;
+        String loc1 = "";
+        String loc2 = "";
         String r1=null,r2=null;
 		File file ;
 		int maxFileSize = 1024 * 1024;
@@ -36,19 +36,15 @@
             
             if ( f.isFormField () )  {
             	if(f.getFieldName().equals("location1")){
-            		if(f.getString().equals("true")){
-            			loc1 = "true";
-            		}
-            	}else if( f.isFormField () )  {
-                	if(f.getFieldName().equals("location2")){
-                		if(f.getString().equals("true")){
-                			loc2 = "true";
-                		}
-                	}else{
-                		
-                	}
-                
-            }
+            		loc1 = f.getString().trim();
+            	}else if( f.getFieldName().equals("location2") )  {
+                	loc2 = f.getString().trim();
+                 
+                 }else if(f.getFieldName().equals("java")){
+                	 if(f.getString().equals("true")){
+                		 flag = true;
+                	 }
+                 }
          }
             }
          Iterator item = fileItems.iterator();
@@ -56,14 +52,31 @@
          {
             FileItem fi = (FileItem)item.next();
             if ( !fi.isFormField () )  {
-            	if(loc1.equals("true")){
+            	if(flag){
+            		if(loc1.equals("true")){
+                		
+                  	 r1 = UploadHelper.uploadJavaFile(fi,ConfigConstants.uploadDdirectories().get(0));
+                  	 
+                  	}
+                  	if(loc2.equals("true")){
+                  		
+                  	 r2 = UploadHelper.uploadJavaFile(fi,ConfigConstants.uploadDdirectories().get(1));
+                  		
+                  	}
             		
-            	  r1 = UploadHelper.upload(fi,ConfigConstants.uploadDdirectories().get(0));
-            	}
-            	if(loc2.equals("true")){
-            	 r2 = UploadHelper.upload(fi,ConfigConstants.uploadDdirectories().get(1));
+            	}else{
+            		if(!loc1.equals("")){
+                		
+                  	  r1 = UploadHelper.uploadOtherFile(fi,ConfigConstants.uploadDdirectories().get(0)+loc1+File.separator);
+                  	}
+                  	if(!loc2.equals("")){
+                  		
+                  	 r2 = UploadHelper.uploadOtherFile(fi,ConfigConstants.uploadDdirectories().get(1)+loc2+File.separator);
+                  		
+                  	}
             		
             	}
+            	
                 
             }
          }

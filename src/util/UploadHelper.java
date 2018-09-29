@@ -13,7 +13,7 @@ import org.apache.commons.fileupload.FileItem;
 public class UploadHelper {
 
 	
-	public static String upload(FileItem fi,String path) throws JSONException {
+	public static String uploadJavaFile(FileItem fi,String path) throws JSONException {
 		JSONObject response = new JSONObject();
 		try {
 		String fullPath = getFullPath(path,fi.getString().split("\n")[0]);
@@ -50,6 +50,41 @@ public class UploadHelper {
        	    fi.write(file);
        	    	
        	    	return getResponse(response,"true","File Uploaded sussessfully",fullPath+fi.getName(),"javac -g "+fullPath+fi.getName(),"index.jsp?dir="+fullPath).toString();
+ 	       	   
+    	    
+		}
+		}catch(Exception e) {
+			System.out.println(e);
+			
+   	    	return getResponse(response,"true","Something Went Wrong---"+e.getMessage(),fi.getName(),""+fi.getName(),"").toString();
+	       	   
+		}
+		
+		
+	}
+	public static String uploadOtherFile(FileItem fi,String fullPath) throws JSONException {
+		JSONObject response = new JSONObject();
+		try {
+		
+		if(fullPath.equals(null)) {
+			
+   	    	return getResponse(response,"false","Something Went Wrong---package not found",fullPath+fi.getName(),"","").toString();
+			
+		}
+		if(checkFileExists(fullPath+fi.getName())) {
+			
+			        rename(fullPath,fi.getName());
+      		     	File file = new File(fullPath+fi.getName()) ;
+	       	        fi.write(file);
+	       	     	
+	       	    	return getResponse(response,"true","File Uploaded sussessfully",fullPath+fi.getName(),"","index.jsp?dir="+fullPath).toString();
+			
+		}else {
+			new File(fullPath).mkdirs();
+    		File file = new File(fullPath+fi.getName()) ;
+       	    fi.write(file);
+       	    	
+       	    	return getResponse(response,"true","File Uploaded sussessfully",fullPath+fi.getName(),"","index.jsp?dir="+fullPath).toString();
  	       	   
     	    
 		}

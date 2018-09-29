@@ -33,10 +33,10 @@
       </div>
       <div class="nav-search">
         <div class="nav-item i-manual">
-          <a href="newconfiguration.jsp">Add New Configuration</a>
+          <a href="newconfiguration.jsp">Add Java Files</a>
         </div>
         <div class="nav-item i-download">
-          <a href="/download"></a>
+          <a href="addxls.jsp"><i class="fas fa-plus-square"></i> Add Xls Files</a>
         </div>
         <div class="nav-item i-user">
           <div class="account"></div>
