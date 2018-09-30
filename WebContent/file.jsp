@@ -39,7 +39,7 @@
       </div>
       <div class="nav-search">
         <div class="nav-item i-manual">
-          <a href="newconfiguration.jsp">Add New Configuration</a>
+           <a href="index.jsp" style="margin-left:-200px"><i class="fas fa-home"></i> Home</a>
         </div>
         <div class="nav-item i-download">
           <a href="/download"></a>

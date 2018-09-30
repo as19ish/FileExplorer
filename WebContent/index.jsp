@@ -16,6 +16,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="assets/css/ztree.css" type="text/css">
    <script type="text/javascript" src="assets/script/ztree.js"></script>
+   <script type="text/javascript" src="http://www.treejs.cn/v3/js/jquery.ztree.excheck.js"></script>
+   <script type="text/javascript" src="http://www.treejs.cn/v3/js/jquery.ztree.exedit.js"></script>
+   
+   
 </head>
 <body class="wide comments example dt-example-bootstrap4">
       
@@ -106,7 +110,11 @@
     </div>
   <script type="text/javascript">
     
-    var setting = { };
+  function myBeforeRemove(treeId, treeNode) {
+	    console.log(treeNode);
+		return false;
+	}
+  var zobj;
 
     var zNodes =[
     	<%
@@ -117,10 +125,70 @@
     	
 
 ];
+    var setting = {
+			edit: {
+				enable: true,
+				showRenameBtn: false,
+				removeTitle: "Delete"
+			},
+			
+			callback: {
+				beforeDrag: beforeDrag,
+				beforeRemove: beforeRemove,
+				onClick: redirect,
+				beforeClick: disableParent
+				
+				
+			}
 
-    $(document).ready(function(){
-      $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-    });
+		};
+
+    function beforeDrag(treeId, treeNodes) {
+		return false;
+	}
+    function redirect(e,treeId, treeNodes) {
+    
+    	  var win = window.open(treeNodes.url, '_blank');
+    	  win.focus();
+   	}
+    function disableParent(treeId, treeNodes){
+    	if(treeNodes.isParent){
+    		
+    		return false;
+    	}
+    }
+   
+    function beforeRemove(treeId, treeNodes) {
+    	t = treeNodes;
+    	if(treeNodes.isParent){
+    		alert("Sorry...Delete option on directories not allowed");
+    		return false;
+    	}
+    	if(!confirm("are you sure you want to delete "+treeNodes.name)){
+    		return false;
+    	}
+    	$.get( "deletefile.jsp", { filePath:  treeNodes.url.split("=")[1].trim() } )
+    	  .done(function( data ) {
+    		  if(data['status'] == true){
+    			  zObj.removeNode(treeNodes,false);
+    			  alert(data['msg']);
+    		  }else{
+    			  alert(data['msg']);  
+    		  }
+    	    
+    	  });
+		return false;
+	}
+    
+
+
+	var zObj;
+	$(document).ready(function(){
+		zObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		
+		
+	});
+
    $('#search_btn').click(function(e){
 	  
 	   var dir = $('#dir').val();
