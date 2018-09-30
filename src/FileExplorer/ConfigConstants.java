@@ -10,7 +10,7 @@ public class ConfigConstants {
 		ArrayList<String> storeDirectory = new ArrayList<String>();
 		storeDirectory.add("D:\\codeFromOtherProject\\configuration\\src\\main\\java\\com\\iag\\infra\\config\\util");
 		storeDirectory.add("D:\\codeFromOtherProject\\configuration\\src\\main\\java");
-		storeDirectory.add("D:\\codeFromOtherProject");
+		storeDirectory.add("E:\\com");
 		return storeDirectory;
 	}
 	

@@ -325,14 +325,10 @@ ul li{
     <div class="container-fluid padd">
       <div class="row">
         <div class="col-sm-4">
-		<div class="form-group">
-		    <label for="applocation1">Applicatin Name 1</label>
-		    <input type="text" class="form-control" id="applocation1" aria-describedby="pathHelp1" placeholder="Enter Directory path" spellcheck="false" >
-		    <small id="pathHelp" class="form-text text-muted black word-break">location: <%= ConfigConstants.uploadDdirectories().get(0) %><span id="appendPath1"></span></small>
-		  </div>
+		
 		  <div class="form-group">
-		    <label for="applocation2">Applicatin Name 2</label>
-		    <input type="text" class="form-control" id="applocation2" aria-describedby="pathHelp2" placeholder="Enter Directory path" spellcheck="false" >
+		    <label for="applocation2" ><strong>BLS</strong></label>
+		    <input type="text" class="form-control" id="applocation2" aria-describedby="pathHelp2" placeholder="ex: com\ba\cap\webchannel" spellcheck="false" >
 		    <small id="pathHelp2" class="form-text text-muted black word-break">location: <%= ConfigConstants.uploadDdirectories().get(1) %><span id="appendPath2"></span></small>
 		  </div>
         </div>
@@ -342,7 +338,7 @@ ul li{
               <div class="frame">
   <div class="center">
 		<div class="bar"></div>
-		<div class="title">Drop File Here</div>
+		<div class="title">Drop xsl File Here</div>
 		<div class="dropzone">
 			<div class="content">
 				<img src="assets/images/upload.svg" class="upload">
@@ -424,15 +420,15 @@ ul li{
   });
 
   function startUpload() {
-    var allowedExtensions = /(xls)$/i;  
+    var allowedExtensions = /(xsl)$/i;  
 	var ext =  fileName.split(".")[1]; 
 	var form = $('#fileUploadForm')[0];
 	if(!allowedExtensions.exec(ext)){
-		alert("Sorry..Only xls Files Allowed");
+		alert("Sorry..Only xsl Files Allowed");
 		return false;
 	} 
 	
-  	if (!uploading && fileName != '' && (checkValue($('#applocation1')) || checkValue($('#applocation1')))) {
+  	if (!uploading && fileName != '' && (checkValue($('#applocation2')))) {
   	     uploading = true;
   		 $button.html('Uploading...');
   		 $dropzone.fadeOut();
@@ -446,14 +442,13 @@ ul li{
   	    	}
   	    	var data = new FormData();
   	    	data.append('file',droppedFile);
-  	       	data.append('location1',$('#applocation1').val());
-  	        data.append('location2',$('#applocation2').val());
+  	       	data.append('location2',$('#applocation2').val());
+  	       	
   	    	
   	    }else{
   	    		
   	        var data = new FormData(form);
-  	        data.append('location1',$('#applocation1').val());
-	        data.append('location2',$('#applocation2').val());
+  	        data.append('location2',$('#applocation2').val());
   	    	
   	    }
         

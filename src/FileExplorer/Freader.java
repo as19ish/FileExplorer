@@ -12,7 +12,7 @@ public static String read(String filename) throws IOException {
 	BufferedReader br = new BufferedReader(new FileReader(file)); 
 	
 	while ((st = br.readLine()) != null) {
-	
+	    
 		sb.append(st).append("\n");
 		
 	}

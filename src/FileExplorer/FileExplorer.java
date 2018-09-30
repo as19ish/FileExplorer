@@ -13,6 +13,7 @@ public class FileExplorer{
   public FileExplorer() {
 	  validExt = new ArrayList<String>();
 	  validExt.add("java");
+	  validExt.add("xsl");
 	
 	  
   }
@@ -36,7 +37,7 @@ public class FileExplorer{
   private static StringBuilder renderFolder(File folder, int level, StringBuilder sb, boolean isLast) throws UnsupportedEncodingException
   { 
 	  
-   sb.append("{\"name\":\"").append(folder.getName()).append("\",\"open\":true,\"children\":[").append("\n");
+   sb.append("{\"name\":\"").append(folder.getName()).append("\",\"open\":true,\"url\":\"").append(URLEncoder.encode(folder.getPath(),"UTF-8")).append("\",\"children\":[").append("\n");
  
 
     File[] objects = folder.listFiles();

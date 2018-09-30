@@ -40,7 +40,7 @@
           <a href="newconfiguration.jsp">Add Java Files</a>
         </div>
         <div class="nav-item i-download">
-          <a href="addxls.jsp"><i class="fas fa-plus-square"></i> Add Xls Files</a>
+          <a href="addxsl.jsp"><i class="fas fa-plus-square"></i> Add Xls Files</a>
         </div>
         <div class="nav-item i-user">
           <div class="account"></div>
@@ -147,9 +147,11 @@
 		return false;
 	}
     function redirect(e,treeId, treeNodes) {
-    
-    	  var win = window.open(treeNodes.url, '_blank');
-    	  win.focus();
+          if(treeNodes.name.split(".")[1] == "java" ){
+        	  var win = window.open(treeNodes.url, '_blank');
+        	  win.focus();
+          }
+    	  
    	}
     function disableParent(treeId, treeNodes){
     	if(treeNodes.isParent){
@@ -161,7 +163,19 @@
     function beforeRemove(treeId, treeNodes) {
     	t = treeNodes;
     	if(treeNodes.isParent){
-    		alert("Sorry...Delete option on directories not allowed");
+    		if(!confirm("are you sure you want to delete "+treeNodes.name)){
+        		return false;
+        	}
+    	  $.get( "deletefile.jsp", { filePath:  treeNodes.url.trim() } )
+      	  .done(function( data ) {
+      		  if(data['status'] == true){
+      			  zObj.removeNode(treeNodes,false);
+      			  alert(data['msg']);
+      		  }else{
+      			  alert(data['msg']);  
+      		  }
+      	    
+      	  });
     		return false;
     	}
     	if(!confirm("are you sure you want to delete "+treeNodes.name)){

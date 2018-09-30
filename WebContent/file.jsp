@@ -39,7 +39,7 @@
       </div>
       <div class="nav-search">
         <div class="nav-item i-manual">
-           <a href="index.jsp" style="margin-left:-200px"><i class="fas fa-home"></i> Home</a>
+           <a href="index.jsp" ><i class="fas fa-home"></i> Home</a>
         </div>
         <div class="nav-item i-download">
           <a href="/download"></a>
@@ -51,9 +51,9 @@
       </div>
     </div>
     
-    <div class="fw-body">
+    <div class="fw-body" style="width:100%;margin-left:0;">
  
-      <div class="content">
+      <div class="content" style="margin-top: 4em;" >
             <div class="filename"><h5><%if((request.getParameter("path"))!=null){out.print(request.getParameter("path"));}%></h5></div>
             <div id="editor"><%if((request.getParameter("path"))!=null){out.print(Freader.read(request.getParameter("path")));}else{out.print("Invalid Request");}%>
             </div>

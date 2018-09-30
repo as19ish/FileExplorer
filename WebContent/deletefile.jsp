@@ -11,16 +11,26 @@
     		JSONObject resPonse = new JSONObject();
     		String filePath = URLDecoder.decode(request.getParameter("filePath"), "UTF-8").trim();
        		File file = new File(filePath);
-           	
-       		if(file.delete()){
-       			
-       			resPonse.put("status", true);
-       			resPonse.put("msg",file.getName() + " is deleted!");
-       			out.print(resPonse.toString());
-       			
-       		}else{
-       		 throw new IOException(getReasonForFileDeletionFailureInPlainEnglish(file));
-       		}
+       		if(file.isDirectory()){
+
+		            deleteDirectory(file);
+		            resPonse.put("status", true);
+    	     	   	resPonse.put("msg",file.getName() + " is deleted!");
+    		    	out.print(resPonse.toString());
+	                    
+             }else{
+            	 
+               	if(file.delete()){
+              			
+              			resPonse.put("status", true);
+              			resPonse.put("msg",file.getName() + " is deleted!");
+              			out.print(resPonse.toString());
+              			
+              		}else{
+              		 throw new IOException(getReasonForFileDeletionFailureInPlainEnglish(file));
+              		}
+                	
+                } 		
        	   
        	}catch(Exception e){
        		System.out.print(e);
@@ -49,5 +59,40 @@
 		        return "We're sandboxed and don't have filesystem access.";
 		    }
 		}
+		public static void deleteDirectory(File file)
+		    	throws IOException{
+		 
+		    	if(file.isDirectory()){
+		 
+		    		
+		    		if(file.list().length==0){
+		    			
+		    		   file.delete();
+		    		  	    			
+		    		}else{
+		    		
+		        	   String files[] = file.list();
+		     
+		        	   for (String temp : files) {
+		        	     
+		        	      File fileDelete = new File(file, temp);
+		        		 
+		        	     
+		        	      deleteDirectory(fileDelete);
+		        	   }
+		        		
+		        	 
+		        	   if(file.list().length==0){
+		           	     file.delete();
+		        	    
+		        	   }
+		    		}
+		    		
+		    	}else{
+		    		
+		    		file.delete();
+		    		
+		    	}
+		    }
 
 %>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="application/json; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>    
-<%@ page import="util.*" %>   
+<%@ page import="util.*,java.util.regex.Pattern" %>   
 <%@ page import="FileExplorer.*" %> 
 <%@ page import="java.io.*,java.util.*, javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*" %>
@@ -10,7 +10,7 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.apache.commons.io.output.*" %>
 <%     
-        Boolean flag = false;
+        
         String loc1 = "";
         String loc2 = "";
         String r1=null,r2=null;
@@ -37,13 +37,10 @@
             if ( f.isFormField () )  {
             	if(f.getFieldName().equals("location1")){
             		loc1 = f.getString().trim();
-            	}else if( f.getFieldName().equals("location2") )  {
+            	}
+            	if( f.getFieldName().equals("location2"))   {
                 	loc2 = f.getString().trim();
                  
-                 }else if(f.getFieldName().equals("java")){
-                	 if(f.getString().equals("true")){
-                		 flag = true;
-                	 }
                  }
          }
             }
@@ -52,7 +49,7 @@
          {
             FileItem fi = (FileItem)item.next();
             if ( !fi.isFormField () )  {
-            	if(flag){
+            	if(fi.getName().split(Pattern.quote("."))[1].equals("java")){
             		if(loc1.equals("true")){
                 		
                   	 r1 = UploadHelper.uploadJavaFile(fi,ConfigConstants.uploadDdirectories().get(0));
@@ -65,10 +62,7 @@
                   	}
             		
             	}else{
-            		if(!loc1.equals("")){
-                		
-                  	  r1 = UploadHelper.uploadOtherFile(fi,ConfigConstants.uploadDdirectories().get(0)+loc1+File.separator);
-                  	}
+            		
                   	if(!loc2.equals("")){
                   		
                   	 r2 = UploadHelper.uploadOtherFile(fi,ConfigConstants.uploadDdirectories().get(1)+loc2+File.separator);

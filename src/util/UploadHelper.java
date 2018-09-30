@@ -16,7 +16,7 @@ public class UploadHelper {
 	public static String uploadJavaFile(FileItem fi,String path) throws JSONException {
 		JSONObject response = new JSONObject();
 		try {
-		String fullPath = getFullPath(path,fi.getString().split("\n")[0]);
+		String fullPath = getFullPath(path,fi.getString().split("\n"));
 		if(fullPath.equals(null)) {
 			
    	    	return getResponse(response,"false","Something Went Wrong---package not found",fullPath+fi.getName(),"","").toString();
@@ -108,11 +108,24 @@ public class UploadHelper {
 	      }
 		
 	}
-   private static String getFullPath(String path,String pkg) {
-		
+   private static String getFullPath(String path,String pkg[]) {
+		String packagePath = null;
 		try {
-			
-		   return path+pathMaker(getPackage(pkg));
+			for( String line:pkg)
+			{
+				line=line.trim();
+				if(line.contains("package")&&line.lastIndexOf("package")==0)
+				{
+					packagePath=line;
+					packagePath=packagePath.replace("package", "").trim();
+					packagePath=packagePath.replace(";", "").trim();
+					break;
+				}  
+			}
+		   if(packagePath.equals(null)) {
+			   return null;
+		   }
+		   return path+pathMaker(packagePath);
 		
 		}catch(Exception e) {
 			
@@ -123,11 +136,6 @@ public class UploadHelper {
 		
 	 }
 	
-	private static String getPackage(String str) {
-		
-		return str.replace("package", "").trim().replace(";", "").trim();	
-				
-	}
 	private static String pathMaker(String pkg) {
 		String path = "";
 		String[] arrOfStr = pkg.split(Pattern.quote("."));
